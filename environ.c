@@ -93,7 +93,7 @@ void _setenv(data_t data)
 	while (tmp)
 	{
 		idx = get_index(tmp->str);
-      		/* If variable already exits */
+
 	if (_strncmp(tmp->str, data.token[1], idx) == 0)
 	{
 		/* Free the memory for the initial string */
@@ -116,7 +116,7 @@ void _setenv(data_t data)
 int get_index(char *s)
 {
 	int i = 0;
-	
+
 	if (s == NULL)
 	return (0);
 	while (s[i])

@@ -19,11 +19,12 @@ void start_shell(char *av[], char *envp[])
 	while (1)
 	{
 		data.linearg = NULL;
-		write(STDOUT_FILENO, "$ ", 2);
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, "$ ", 2);
 		if (getline(&data.linearg, &n, stdin) == -1)
 		{
 			free_list(data.envp);
-			write(STDOUT_FILENO, "exit\n", 5);
+			/* write(STDOUT_FILENO, "exit\n", 5); */
 			break;
 		}
 	/*signal(SIGINT, handle_sigint); */

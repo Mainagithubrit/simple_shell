@@ -24,13 +24,14 @@ void start_shell(char *av[], char *envp[])
 		if (getline(&data.linearg, &n, stdin) == -1)
 		{
 			free_list(data.envp);
-			/*write(STDOUT_FILENO, "\n", 1);*/
 			break;
 		}
-	/*signal(SIGINT, handle_sigint); */
 		data.tokens = get_tok(data.linearg);
 		if (data.tokens == 0)
+		{
+			free(data.linearg);
 			continue;
+		}
 		data.token = malloc(sizeof(char *) * (data.tokens + 1));
 		if (data.token == NULL)
 			exit(98);

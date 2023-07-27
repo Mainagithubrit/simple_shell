@@ -24,7 +24,7 @@ void start_shell(char *av[], char *envp[])
 		if (getline(&data.linearg, &n, stdin) == -1)
 		{
 			free_list(data.envp);
-			/* write(STDOUT_FILENO, "exit\n", 5); */
+			write(STDOUT_FILENO, "\n", 1);
 			break;
 		}
 	/*signal(SIGINT, handle_sigint); */

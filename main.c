@@ -44,7 +44,7 @@ void execute(data_t data, char *path, char **envp)
 	{
 		perr_str(data.av[0], ": ");
 		perr_str(data.token[0], ": ");
-		perr_str("command not found", "\n");
+		perr_str("not found", "\n"); /* Modified */
 		perr_ch(-1);
 	}
 	free(real_cmd);

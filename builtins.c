@@ -71,8 +71,8 @@ void exit_shell(data_t data)
 		new_free(data);
 		exit(status);
 	}
-	p_str(data.token[0], "\n");
-	p_ch(-1);
+	/* p_str(data.token[0], "\n"); */
+	/* p_ch(-1); */
 	new_free(data);
 	exit(0);
 }

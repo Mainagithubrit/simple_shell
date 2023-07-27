@@ -29,7 +29,7 @@ void initialize_path(data_t *data, char **envp)
 	while (envp[i])
 		add_node_end(&list, envp[i++]);
 
-		data->envp = list;
+	data->envp = list;
 }
 /**
   * add_node_end - a function that adds a node at the

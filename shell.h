@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
-#include <stdarg.h>
 
 
 /**

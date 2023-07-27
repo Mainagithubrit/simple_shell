@@ -74,7 +74,7 @@ void new_free(data_t data);
 
 unsigned int get_tok(char *str);
 void tokenize(char *linearg, char **token, int tokens);
-void execute(data_t data, char *path);
+void execute(data_t data, char *path, char**);
 char *getpath(data_t);
 char *get_cmd(char *path, char *command);
 void start_shell(char*[], char *[]);

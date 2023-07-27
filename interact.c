@@ -40,7 +40,7 @@ void start_shell(char *av[], char *envp[])
 			free(data.linearg);
 			continue;
 		}
-		execute(data, path + 5);
+		execute(data, path + 5, envp);
 		free(data.token);
 		free(data.linearg);
 	}

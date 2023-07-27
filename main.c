@@ -20,7 +20,7 @@ int main(__attribute__((unused))int ac, char *av[], char *envp[])
   * @path: the path of the current directory
   * Return: 0
   */
-void execute(data_t data, char *path)
+void execute(data_t data, char *path, char **envp)
 {
 	pid_t pid;
 	char *real_cmd = get_cmd(path, data.token[0]);
@@ -32,7 +32,7 @@ void execute(data_t data, char *path)
 			pid = fork();
 			if (pid == 0)
 			{
-				if (execve(real_cmd, data.token, NULL) == -1)
+				if (execve(real_cmd, data.token, envp) == -1)
 				exit(120);
 			}
 		}

@@ -37,7 +37,7 @@ void start_shell(char *av[], char *envp[])
 		if (data.token == NULL)
 			exit(98);
 		tokenize(data.linearg, data.token, data.tokens);
-		if (check_builtin(data))
+		if (check_builtin(&data))
 		{
 			free(data.token);
 			free(data.linearg);

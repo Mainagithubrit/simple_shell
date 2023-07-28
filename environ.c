@@ -4,9 +4,9 @@
   * @data: data containing envrionment
   */
 
-void env(data_t data)
+void env(data_t *data)
 {
-	list_t *list = data.envp;
+	list_t *list = data->envp;
 
 	while (list)
 	{
@@ -39,7 +39,7 @@ void initialize_path(data_t *data, char **envp)
   * Return: 0
    */
 
-void add_node_end(list_t **head, const char *str)
+void add_node_end(list_t **head, char *str)
 {
 	list_t *ptr = NULL;
 	list_t *temp = NULL;
@@ -70,14 +70,14 @@ void add_node_end(list_t **head, const char *str)
  * _setenv - Handle the commade setenv
  * @data: data
  */
-void _setenv(data_t data)
+void _setenv(data_t *data)
 {
-	list_t *env = data.envp;
+	list_t *env = data->envp;
 	list_t *tmp;
 	int idx = 0;
 	char *value;
 
-	if (data.tokens != 3)
+	if (data->tokens != 3)
 	{
 		perr_str("Invalid number of argument\n", "");
 		perr_ch(-1);
@@ -85,16 +85,16 @@ void _setenv(data_t data)
 	}
 	tmp = env;
 
-		value = malloc(_strlen(data.token[1]) + _strlen(data.token[2]) + 2);
-		_strcpy(value, data.token[1]);
+		value = malloc(_strlen(data->token[1]) + _strlen(data->token[2]) + 2);
+		_strcpy(value, data->token[1]);
 		_strcat(value, "=");
-		_strcat(value, data.token[2]);
+		_strcat(value, data->token[2]);
 
 	while (tmp)
 	{
 		idx = get_index(tmp->str);
 
-	if (_strncmp(tmp->str, data.token[1], idx) == 0)
+	if (_strncmp(tmp->str, data->token[1], idx) == 0)
 	{
 		/* Free the memory for the initial string */
 		free(tmp->str);
@@ -106,6 +106,7 @@ void _setenv(data_t data)
 	}
 		/*If variable does not exit. Add a new node to the envrionment */
 	add_node_end(&env, value);
+	free(value);
 }
 
 /**

@@ -53,23 +53,23 @@ typedef struct shell_data
 typedef struct cmd_data
 {
 	char *arg;
-	void (*ptr)(data_t);
+	void (*ptr)(data_t *);
 } builtin;
 
 
 /** Builtin Handlers */
-int check_builtin(data_t data);
-void exit_shell(data_t);
-void env(data_t);
-void _setenv(data_t data);
+int check_builtin(data_t *data);
+void exit_shell(data_t *);
+void env(data_t *);
+void _setenv(data_t *data);
+void _unsetenv(data_t *data);
 
 /****** Environments *******/
-void add_node_end(list_t **head, const char *str);
+void add_node_end(list_t **head, char *str);
 void initialize_path(data_t *data, char **envp);
-list_t *add_node(list_t **head, const char *str);
 int get_index(char *s);
 void free_list(list_t *head);
-void new_free(data_t data);
+void new_free(data_t *data);
 
 
 

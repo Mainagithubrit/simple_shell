@@ -23,6 +23,7 @@ typedef struct env_list
 /**
  * struct shell_data - shell data
  * @tokens: number of token in linearg
+ * @estatus: exit status
  * @token: tokenize linearg
  * @linearg: User input
  * @envp: enviromental variables
@@ -32,12 +33,17 @@ typedef struct env_list
 typedef struct shell_data
 {
 	unsigned int tokens;
+	int estatus;
 	char **token;
 	char *linearg;
 	list_t *envp;
 	char **av;
 } data_t;
 
+
+/**** Macros *****/
+#define CLEAR {0, 0, NULL, NULL, NULL, NULL}
+#define BUFF_SIZE 1024
 
 /**
  * struct cmd_data - command line argument
@@ -66,14 +72,11 @@ void free_list(list_t *head);
 void new_free(data_t data);
 
 
-/**** Macros *****/
-#define CLEAR {0, NULL, NULL, NULL, NULL}
-#define BUFF_SIZE 1024
 
 
 unsigned int get_tok(char *str);
 void tokenize(char *linearg, char **token, int tokens);
-void execute(data_t data, char *path, char**);
+void execute(data_t *data, char *path, char**);
 char *getpath(data_t);
 char *get_cmd(char *path, char *command);
 void start_shell(char*[], char *[]);

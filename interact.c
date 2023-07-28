@@ -23,8 +23,9 @@ void start_shell(char *av[], char *envp[])
 			write(STDOUT_FILENO, "$ ", 2);
 		if (getline(&data.linearg, &n, stdin) == -1)
 		{
+			free(data.linearg);
 			free_list(data.envp);
-			break;
+			exit(data.estatus);
 		}
 		data.tokens = get_tok(data.linearg);
 		if (data.tokens == 0)
@@ -42,9 +43,8 @@ void start_shell(char *av[], char *envp[])
 			free(data.linearg);
 			continue;
 		}
-		execute(data, path + 5, envp);
+		execute(&data, path + 5, envp);
 		free(data.token);
 		free(data.linearg);
 	}
-	free(data.linearg);
 }

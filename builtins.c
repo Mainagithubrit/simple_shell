@@ -56,15 +56,11 @@ void exit_shell(data_t data)
 		if (is_number(data.token[1]))
 		{
 			status = _atoi(data.token[1]);
-			p_str(data.token[0], "\n");
-			p_ch(-1);
 		}
 		else
 		{
-			perr_str(data.token[0], "\n");
-			perr_str(data.av[0], ": ");
-			perr_str("exit: ", data.token[1]);
-			perr_str(": ", "numeric argument required\n");
+			perr_str(data.av[0], ": 1: exit: Illegal number: ");
+			perr_str(data.token[1], "\n");
 			perr_ch(-1);
 			status = 2;
 		}
@@ -74,7 +70,7 @@ void exit_shell(data_t data)
 	/* p_str(data.token[0], "\n"); */
 	/* p_ch(-1); */
 	new_free(data);
-	exit(0);
+	exit(data.estatus);
 }
 
 /**

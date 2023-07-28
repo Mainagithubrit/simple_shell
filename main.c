@@ -18,12 +18,14 @@ int main(__attribute__((unused))int ac, char *av[], char *envp[])
   * execute - a function that takes in user input and executes the command
   * @data: the command arguments
   * @path: the path of the current directory
+  * @envp: environment path
   * Return: 0
   */
-void execute(data_t data, char *path, char **envp)
+void execute(data_t *data, char *path, char **envp)
 {
 	pid_t pid;
-	char *real_cmd = get_cmd(path, data.token[0]);
+	char *real_cmd = get_cmd(path, data->token[0]);
+	int wstatus;
 
 	if (real_cmd)
 	{
@@ -32,20 +34,23 @@ void execute(data_t data, char *path, char **envp)
 			pid = fork();
 			if (pid == 0)
 			{
-				if (execve(real_cmd, data.token, envp) == -1)
-				exit(120);
+				if (execve(real_cmd, data->token, envp) == -1)
+					exit(2);
 			}
 		}
 		else
 			perror("Permission Denied");
-		wait(NULL);
+		wait(&wstatus);
+		data->estatus = WEXITSTATUS(wstatus);
 	}
 	else
 	{
-		perr_str(data.av[0], ": ");
-		perr_str(data.token[0], ": ");
+		perr_str(data->av[0], ": ");
+		perr_str("1: ", "");
+		perr_str(data->token[0], ": ");
 		perr_str("not found", "\n"); /* Modified */
 		perr_ch(-1);
+		data->estatus = 127;
 	}
 	free(real_cmd);
 }

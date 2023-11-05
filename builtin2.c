@@ -15,7 +15,10 @@ void cd(data_t *data)
 	else if (data->token[1][0] == '-')
 	{
 		new_dir = get_dir_path(data->envp, "OLDPWD");
-		p_str(new_dir, "\n");
+		if (new_dir)
+			p_str(new_dir, "\n");
+		else
+			p_str(cwd, "\n");
 		p_ch(-1);
 	}
 	else

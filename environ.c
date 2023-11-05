@@ -58,74 +58,13 @@ void add_node_end(list_t **head, char *str)
 	if (*head == NULL)
 	{
 		*head = ptr;
-	return;
+		return;
 	}
-		temp = *head;
+	temp = *head;
 	while (temp->next)
 		temp = temp->next;
 	temp->next = ptr;
 }
 
-/**
- * _setenv - Handle the commade setenv
- * @data: data
- */
-void _setenv(data_t *data)
-{
-	list_t *env = data->envp;
-	list_t *tmp;
-	int idx = 0;
-	char *value;
 
-	if (data->tokens != 3)
-	{
-		perr_str("Invalid number of argument\n", "");
-		perr_ch(-1);
-		return;
-	}
-	tmp = env;
 
-		value = malloc(_strlen(data->token[1]) + _strlen(data->token[2]) + 2);
-		_strcpy(value, data->token[1]);
-		_strcat(value, "=");
-		_strcat(value, data->token[2]);
-
-	while (tmp)
-	{
-		idx = get_index(tmp->str);
-
-	if (_strncmp(tmp->str, data->token[1], idx) == 0)
-	{
-		/* Free the memory for the initial string */
-		free(tmp->str);
-		/*Make the struct sting point to the new string */
-		tmp->str = value;
-	return;
-	}
-	tmp = tmp->next;
-	}
-		/*If variable does not exit. Add a new node to the envrionment */
-	add_node_end(&env, value);
-	free(value);
-}
-
-/**
-  * get_index - Get index of the first occurence of char =
-  * @s: String to check
-  * Return: Index
-  */
-int get_index(char *s)
-{
-	int i = 0;
-
-	if (s == NULL)
-	return (0);
-	while (s[i])
-	{
-	if (s[i] == '=')
-		return (i);
-	i++;
-	}
-
-		return (0);
-}

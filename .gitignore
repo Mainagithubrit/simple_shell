@@ -1,3 +1,7 @@
-TEST_SUITES
+TEST_SUITE
 allowed_functions
 runchecker.bash
+.vscode
+launch.json
+hsh
+hsh_debug

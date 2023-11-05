@@ -63,6 +63,7 @@ void exit_shell(data_t *);
 void env(data_t *);
 void _setenv(data_t *data);
 void _unsetenv(data_t *data);
+void cd(data_t *data);
 
 /****** Environments *******/
 void add_node_end(list_t **head, char *str);
@@ -105,6 +106,7 @@ int _atoi(char *s);
 void handle_sigint(__attribute__((unused))int sig);
 
 
-
+/********** Helpers *********/
+char *get_dir_path(list_t *, char *);
 
 #endif

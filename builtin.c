@@ -12,6 +12,7 @@ int check_builtin(data_t *data)
 		{"env", env},
 		{"setenv", _setenv},
 		{"unsetenv", _unsetenv},
+		{"cd", cd},
 		{NULL, NULL}
 		};
 		int i = 0;
@@ -68,30 +69,93 @@ void exit_shell(data_t *data)
 	new_free(data);
 	exit(data->estatus);
 }
-
 /**
-  * is_number - a function that checks if the command input is a number
-  * @s: the command to be checked
-  * Return: 0
-  */
-int is_number(char *s)
+ * _setenv - Handle the commade setenv
+ * @data: data
+ */
+void _setenv(data_t *data)
 {
-	while (*s)
+	list_t *env = data->envp;
+	list_t *tmp;
+	int idx = 0;
+	char *value;
+
+	if (data->tokens != 3)
 	{
-		if (*s < '0' || *s > '9')
-			return (0);
-		s++;
+		perr_str("Invalid number of argument\n", "");
+		perr_ch(-1);
+		return;
 	}
-	return (1);
+	tmp = env;
+
+	value = malloc(_strlen(data->token[1]) + _strlen(data->token[2]) + 2);
+	_strcpy(value, data->token[1]);
+	_strcat(value, "=");
+	_strcat(value, data->token[2]);
+
+	while (tmp)
+	{
+		idx = get_index(tmp->str);
+
+		if (_strncmp(tmp->str, data->token[1], idx) == 0)
+		{
+			/* Free the memory for the initial string */
+			free(tmp->str);
+			/*Make the struct sting point to the new string */
+			tmp->str = value;
+			return;
+		}
+		tmp = tmp->next;
+	}
+	/*If variable does not exit. Add a new node to the envrionment */
+	add_node_end(&env, value);
+	free(value);
 }
 
 /**
- * new_free - Free some block of memory
- * @data: data where memory is stored
+ * _unsetenv - unset an environmental variable
+ * @data: data
  */
-void new_free(data_t *data)
+
+void _unsetenv(data_t *data)
 {
-	free(data->token);
-	free(data->linearg);
-	free_list(data->envp);
+	list_t *tmp = data->envp, *prev = NULL;
+	int idx, i = 0;
+
+	if (data->tokens != 2)
+	{
+		perr_str("Invalid number of arguments\n", "");
+		perr_ch(-1);
+		return;
+	}
+
+	while (tmp)
+	{
+		idx = get_index(tmp->str);
+
+		if (_strncmp(tmp->str, data->token[1], idx) == 0)
+		{
+			if (i == 0)
+			{
+				data->envp = tmp->next;
+				free(tmp->str);
+				free(tmp);
+			}
+			else
+			{
+				prev->next = tmp->next;
+				free(tmp->str);
+				free(tmp);
+			}
+			return;
+		}
+
+		i++;
+		prev = tmp;
+		tmp = tmp->next;
+	}
+
+
+	perr_str(data->token[1], "is not a valid environment variable\n");
+	perr_ch(-1);
 }

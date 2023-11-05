@@ -13,14 +13,18 @@ void cd(data_t *data)
 	if (data->tokens < 2)
 		new_dir = get_dir_path(data->envp, "HOME");
 	else if (data->token[1][0] == '-')
+	{
 		new_dir = get_dir_path(data->envp, "OLDPWD");
+		p_str(new_dir, "\n");
+		p_ch(-1);
+	}
 	else
 		new_dir = data->token[1];
 	if (!new_dir)
 		return;
 	if (chdir(new_dir) != 0)
 	{
-		perr_str("./hsh: 1: cd: can't cd to", data->token[1]);
+		perr_str("./hsh: 1: cd: can't cd to ", data->token[1]);
 		perr_ch('\n');
 		perr_ch(-1);
 	}

@@ -108,5 +108,6 @@ void handle_sigint(__attribute__((unused))int sig);
 
 /********** Helpers *********/
 char *get_dir_path(list_t *, char *);
+void ch_env(data_t *data, char *env, char* new_env);
 
 #endif

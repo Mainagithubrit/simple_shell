@@ -11,10 +11,10 @@ void cd(data_t *data)
 
 	cwd = getcwd(buff, BUFF_SIZE);
 	if (data->tokens < 2)
-		new_dir = get_dir_path(data->envp, "HOME");
+		new_dir = _strdup(get_dir_path(data->envp, "HOME"));
 	else if (data->token[1][0] == '-')
 	{
-		new_dir = get_dir_path(data->envp, "OLDPWD");
+		new_dir = _strdup(get_dir_path(data->envp, "OLDPWD"));
 		if (new_dir)
 			p_str(new_dir, "\n");
 		else
@@ -22,7 +22,7 @@ void cd(data_t *data)
 		p_ch(-1);
 	}
 	else
-		new_dir = data->token[1];
+		new_dir = _strdup(data->token[1]);
 	if (!new_dir)
 		return;
 	if (chdir(new_dir) != 0)
@@ -30,6 +30,8 @@ void cd(data_t *data)
 		perr_str("./hsh: 1: cd: can't cd to ", data->token[1]);
 		perr_ch('\n');
 		perr_ch(-1);
+		free(new_dir);
+		return;
 	}
 	data->tokens = 3;
 	free(data->token);
@@ -38,8 +40,8 @@ void cd(data_t *data)
 	data->token[1] = "OLDPWD";
 	data->token[2] = cwd;
 	_setenv(data);
-	data->token[0] = "setenv";
 	data->token[1] = "PWD";
 	data->token[2] = new_dir;
 	_setenv(data);
+	free(new_dir);
 }
